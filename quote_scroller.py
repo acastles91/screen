@@ -30,7 +30,7 @@ import adafruit_blinka_raspberry_pi5_piomatter as piomatter
 total_width = 256
 total_height = 64
 
-bottom_half_shift_compensation = -1
+bottom_half_shift_compensation = -2
 
 font_color = (255, 255, 0)
 
@@ -69,7 +69,7 @@ matrix = piomatter.PioMatter(colorspace=piomatter.Colorspace.RGB888Packed,
 
 print("Ctrl-C to exit")
 
-speed = 100
+speed = 80
 half = total_height // 2
 shift = bottom_half_shift_compensation
 cycle = full_txt_img.width + total_width + 1
@@ -104,4 +104,4 @@ while True:
 
     framebuffer[:] = np.asarray(single_frame_img)
     matrix.show()
-    time.sleep(1 / 60)
+    #time.sleep(1 / 60)
