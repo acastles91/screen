@@ -47,8 +47,8 @@ left, top, right, bottom = font.getbbox(text)
 
 y = (total_height - (bottom - top)) // 2 - top
 
-full_txt_img = Image.new("RGB", (int(text_width) + 6, int(text_height) + 6), (0, 0, 0))
-#full_txt_img = Image.new("RGB", (right + 6, total_height), (0, 0, 0))
+#full_txt_img = Image.new("RGB", (int(text_width) + 6, int(text_height) + 6), (0, 0, 0))
+full_txt_img = Image.new("RGB", (right + 6, total_height), (0, 0, 0))
 
 draw = ImageDraw.Draw(full_txt_img)
 
@@ -69,7 +69,9 @@ matrix = piomatter.PioMatter(colorspace=piomatter.Colorspace.RGB888Packed,
 
 print("Ctrl-C to exit")
 
-speed = 100280
+speed = 100
+half = total_height // 2
+shift = bottom_half_shift_compensation
 cycle = full_txt_img.width + total_width + 1
 
 start = time.monotonic()
@@ -77,7 +79,7 @@ start = time.monotonic()
 
 while True:
     x_pixel = int((time.monotonic() - start) * speed) % cycle - total_width - 1
-    for x_pixel in range(-total_width-1,full_txt_img.width):
+    '''for x_pixel in range(-total_width-1,full_txt_img.width):
         if bottom_half_shift_compensation == 0:
             # full paste
             single_frame_img.paste(full_txt_img.crop((x_pixel, 0, x_pixel + total_width, total_height)), (0, 0))
@@ -90,4 +92,16 @@ while True:
 
         framebuffer[:] = np.asarray(single_frame_img)
         matrix.show()
-        #time.sleep(1 / 60)
+
+
+'''
+    single_frame_img.paste(
+        full_txt_img.crop((x_pixel, 0, x_pixel + total_width, half)), (0, 0))
+    # bottom half, shifted by `shift` pixels
+    single_frame_img.paste(
+        full_txt_img.crop((x_pixel - shift, half,
+                           x_pixel - shift + total_width, total_height)), (0, half))
+
+    framebuffer[:] = np.asarray(single_frame_img)
+    matrix.show()
+    time.sleep(1 / 60)
