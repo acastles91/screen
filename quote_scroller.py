@@ -29,7 +29,7 @@ import random
 from pathlib import Path
 
 # ---------- settings ----------
-VAULT_PATH = Path("/home/antonio/vault/LED")  # a folder of .md files OR a single .md file
+VAULT_PATH = Path("/home/antonio/ObsidianVault")  # a folder of .md files OR a single .md file
 SHUFFLE = False                               # True = random order each pass
 SPEED = 100                                   # pixels per second
 total_width = 256
