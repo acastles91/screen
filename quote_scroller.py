@@ -21,12 +21,12 @@ from PIL import Image, ImageDraw, ImageFont
 import adafruit_blinka_raspberry_pi5_piomatter as piomatter
 
 # 128px for 2x1 matrices. Change to 64 if you're using a single matrix.
-total_width = 128
-total_height = 32
+total_width = 256
+total_height = 64
 
 bottom_half_shift_compensation = 1
 
-font_color = (0, 128, 128)
+font_color = (255, 255, 0)
 
 # Load the font
 font = ImageFont.truetype("LindenHill-webfont.ttf", 26)
@@ -46,7 +46,7 @@ full_txt_img.save("quote.png")
 single_frame_img = Image.new("RGB", (total_width, total_height), (0, 0, 0))
 
 geometry = piomatter.Geometry(width=total_width, height=total_height,
-                              n_addr_lines=4, rotation=piomatter.Orientation.Normal)
+                              n_addr_lines=5, rotation=piomatter.Orientation.R180)
 framebuffer = np.asarray(single_frame_img) + 0  # Make a mutable copy
 
 matrix = piomatter.PioMatter(colorspace=piomatter.Colorspace.RGB888Packed,
