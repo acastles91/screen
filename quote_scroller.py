@@ -14,22 +14,28 @@ $ python quote_scroller.py
 
 """
 
+import time
 import numpy as np
 import requests
 from PIL import Image, ImageDraw, ImageFont
 
 import adafruit_blinka_raspberry_pi5_piomatter as piomatter
 
+
+
+
+
+
 # 128px for 2x1 matrices. Change to 64 if you're using a single matrix.
 total_width = 256
 total_height = 64
 
-bottom_half_shift_compensation = 1
+bottom_half_shift_compensation = -1
 
 font_color = (255, 255, 0)
 
 # Load the font
-font = ImageFont.truetype("LindenHill-webfont.ttf", 26)
+font = ImageFont.truetype("LindenHill-webfont.ttf", 48)
 
 quote_resp = requests.get("https://www.adafruit.com/api/quotes.php").json()
 
@@ -37,16 +43,23 @@ text = f'{quote_resp[0]["text"]} - {quote_resp[0]["author"]}'
 #text = "Sometimes you just want to use hardcoded strings. - Unknown"
 
 x, y, text_width, text_height = font.getbbox(text)
+left, top, right, bottom = font.getbbox(text)
+
+y = (total_height - (bottom - top)) // 2 - top
 
 full_txt_img = Image.new("RGB", (int(text_width) + 6, int(text_height) + 6), (0, 0, 0))
+#full_txt_img = Image.new("RGB", (right + 6, total_height), (0, 0, 0))
+
 draw = ImageDraw.Draw(full_txt_img)
-draw.text((3, 3), text, font=font, fill=font_color)
+
+#draw.text((3, 3), text, font=font, fill=font_color)
+draw.text((3, y), text, font=font, fill=font_color)
 full_txt_img.save("quote.png")
 
 single_frame_img = Image.new("RGB", (total_width, total_height), (0, 0, 0))
 
 geometry = piomatter.Geometry(width=total_width, height=total_height,
-                              n_addr_lines=5, rotation=piomatter.Orientation.R180)
+                              n_addr_lines=5, n_planes=10, n_temporal_planes=4, rotation=piomatter.Orientation.R180)
 framebuffer = np.asarray(single_frame_img) + 0  # Make a mutable copy
 
 matrix = piomatter.PioMatter(colorspace=piomatter.Colorspace.RGB888Packed,
@@ -55,7 +68,15 @@ matrix = piomatter.PioMatter(colorspace=piomatter.Colorspace.RGB888Packed,
                              geometry=geometry)
 
 print("Ctrl-C to exit")
+
+speed = 100280
+cycle = full_txt_img.width + total_width + 1
+
+start = time.monotonic()
+
+
 while True:
+    x_pixel = int((time.monotonic() - start) * speed) % cycle - total_width - 1
     for x_pixel in range(-total_width-1,full_txt_img.width):
         if bottom_half_shift_compensation == 0:
             # full paste
@@ -69,3 +90,4 @@ while True:
 
         framebuffer[:] = np.asarray(single_frame_img)
         matrix.show()
+        #time.sleep(1 / 60)
