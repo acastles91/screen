@@ -181,7 +181,7 @@ start = time.monotonic()
 
 while True:
     x_pixel = int((time.monotonic() - start) * speed) % cycle - total_width - 1 '''
-    '''for x_pixel in range(-total_width-1,full_txt_img.width):
+'''for x_pixel in range(-total_width-1,full_txt_img.width):
         if bottom_half_shift_compensation == 0:
             # full paste
             single_frame_img.paste(full_txt_img.crop((x_pixel, 0, x_pixel + total_width, total_height)), (0, 0))
