@@ -22,9 +22,7 @@ from PIL import Image, ImageDraw, ImageFont
 import adafruit_blinka_raspberry_pi5_piomatter as piomatter
 
 
-
 import re
-import time
 import random
 from pathlib import Path
 
@@ -32,7 +30,7 @@ from pathlib import Path
 VAULT_PATH = Path("/home/antonio/ObsidianVault/Lo Feo")  # a folder of .md files OR a single .md file
 SHUFFLE = False                               # True = random order each pass
 SPEED = 100                                   # pixels per second
-total_width = 256
+total_width = 128 * 3
 total_height = 64
 bottom_half_shift_compensation = -2
 font_color = (255, 255, 0)
