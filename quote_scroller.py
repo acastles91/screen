@@ -29,14 +29,14 @@ import random
 from pathlib import Path
 
 # ---------- settings ----------
-VAULT_PATH = Path("/home/antonio/ObsidianVault/Lo\ Feo")  # a folder of .md files OR a single .md file
+VAULT_PATH = Path("/home/antonio/ObsidianVault/Lo Feo")  # a folder of .md files OR a single .md file
 SHUFFLE = False                               # True = random order each pass
 SPEED = 100                                   # pixels per second
 total_width = 256
 total_height = 64
 bottom_half_shift_compensation = -2
 font_color = (255, 255, 0)
-font = ImageFont.truetype("LindenHill-webfont.ttf", 48)
+font = ImageFont.truetype("NotoSans-Regular.ttf", 48)
 # ------------------------------
 
 half = total_height // 2
