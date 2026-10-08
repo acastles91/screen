@@ -27,12 +27,12 @@ import random
 from pathlib import Path
 
 # ---------- settings ----------
-VAULT_PATH = Path("/home/antonio/ObsidianVault/Lo Feo")  # a folder of .md files OR a single .md file
+VAULT_PATH = Path("/home/antonio/ObsidianVault/Lo Malo")  # a folder of .md files OR a single .md file
 SHUFFLE = False                               # True = random order each pass
 SPEED = 100                                   # pixels per second
 total_width = 128 * 3
 total_height = 64
-bottom_half_shift_compensation = -2
+bottom_half_shift_compensation = -1
 font_color = (255, 255, 0)
 font = ImageFont.truetype("NotoSans-Regular.ttf", 48)
 # ------------------------------
@@ -83,7 +83,7 @@ def render(text):
 # ---------- matrix setup ----------
 single_frame_img = Image.new("RGB", (total_width, total_height), (0, 0, 0))
 geometry = piomatter.Geometry(width=total_width, height=total_height,
-                              n_addr_lines=5, n_planes=10, n_temporal_planes=4,
+                              n_addr_lines=5, n_planes=2, n_temporal_planes=0,
                               rotation=piomatter.Orientation.R180)
 framebuffer = np.asarray(single_frame_img) + 0
 matrix = piomatter.PioMatter(colorspace=piomatter.Colorspace.RGB888Packed,
@@ -109,7 +109,7 @@ def scroll(img):
 
         framebuffer[:] = np.asarray(single_frame_img)
         matrix.show()
-        #time.sleep(1 / 60)
+        time.sleep(1 / 60)
 
 
 print("Ctrl-C to exit")
