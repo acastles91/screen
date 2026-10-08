@@ -28,7 +28,7 @@ from pathlib import Path
 
 # ---------- settings ----------
 VAULT_PATH = Path("/home/antonio/ObsidianVault/Lo Malo")  # a folder of .md files OR a single .md file
-SHUFFLE = False                               # True = random order each pass
+SHUFFLE = True                                  # True = random order each pass
 SPEED = 100                                   # pixels per second
 total_width = 128 * 3
 total_height = 64
